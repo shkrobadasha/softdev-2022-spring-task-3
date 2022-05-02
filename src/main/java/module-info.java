@@ -1,4 +1,4 @@
-module com.example.demo2 {
+module com.example.battleship {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -9,6 +9,6 @@ module com.example.demo2 {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
 
-    opens com.example.battleship to javafx.fxml;
     exports com.example.battleship;
+    opens com.example.battleship to javafx.fxml;
 }
