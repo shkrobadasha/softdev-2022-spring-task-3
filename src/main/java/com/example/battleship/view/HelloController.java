@@ -1,4 +1,4 @@
-package com.example.battleship;
+package com.example.battleship.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
