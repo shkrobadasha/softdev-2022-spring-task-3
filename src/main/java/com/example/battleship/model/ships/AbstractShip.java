@@ -15,6 +15,7 @@ public abstract class AbstractShip {
             cells.put(i, false);
         }
 
+
     }
 
     final public boolean isAlive(){
