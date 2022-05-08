@@ -11,7 +11,6 @@ module com.example.battleship {
 
     exports com.example.battleship.view;
     opens com.example.battleship.view to javafx.fxml;
-
     exports com.example.battleship;
     opens com.example.battleship to javafx.fxml;
 }
