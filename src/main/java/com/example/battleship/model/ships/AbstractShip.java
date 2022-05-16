@@ -15,7 +15,6 @@ public abstract class AbstractShip {
             cells.put(i, false);
         }
 
-
     }
 
     final public boolean isAlive(){
@@ -29,7 +28,7 @@ public abstract class AbstractShip {
 
         }
 
-        return count < cells.size();//если вернет тру,то
+        return count < cells.size();
     }
 
     public int getSize() {//геттер для размера

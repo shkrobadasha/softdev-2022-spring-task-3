@@ -8,6 +8,9 @@ public class Player {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
 
     @Override //типа геттер
     public String toString() {

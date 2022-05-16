@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Field {//сюда нужно добавить расстановк укораблей(ориентация,вокруг пусто) + мины + выводило новое поле
+public class Field {//сюда нужно добавить расстановку кораблей(ориентация,вокруг пусто) + мины + выводило новое поле
 
     private static final int SIZE = 10 * 10;
     private final boolean[] cells;// По умолчанию все false, если в клетку уже стреляли, то true
@@ -30,7 +30,7 @@ public class Field {//сюда нужно добавить расстановк 
         ships.add(ship);
     }
 
-    private void validate(int shipSize, int count) {//проверка чтобы было добавлено только возможное колличество кораблей
+    private void validate(int shipSize, int count) {//проверка чтобы было добавлено только возможное количество кораблей
         int limit = 4 - shipSize + 1;
 
         if (limit == count) {
@@ -39,7 +39,7 @@ public class Field {//сюда нужно добавить расстановк 
     }
 
     public boolean strike(int index) {// True - попал, False - мимо
-        if (cells[index]) throw new IllegalArgumentException();//если хочет тыкнуть в ту которая уже тру и которая уже помечена на убитую
+        if (cells[index]) throw new IllegalArgumentException();//если хочет тыкнуть в ту, которая уже тру и которая уже помечена на убитую
 
         cells[index] = true;
 

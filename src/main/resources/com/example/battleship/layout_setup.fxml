@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="501.0" prefWidth="600.0" style="-fx-background-color: #B0C4DE;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.battleship.view.SceneSetup">
+    <children>
+        <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="153.0" layoutY="14.0" prefHeight="67.0" prefWidth="294.0" text="Расставьте корабли" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+            <font>
+                <Font name="Comic Sans MS" size="30.0" />
+            </font>
+        </Label>
+        <Label fx:id="playerName" alignment="CENTER" layoutX="162.0" layoutY="59.0" prefHeight="18.0" prefWidth="275.0">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <GridPane id="grid_pane" fx:id="grid_pane" alignment="CENTER" gridLinesVisible="true" layoutX="150.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="300.0" prefWidth="300.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+            </columnConstraints>
+            <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" />
+            </rowConstraints>
+        </GridPane>
+        <Button fx:id="nextButton" layoutX="240.0" layoutY="438.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="119.0" text="Next" />
+        <Pane layoutX="14.0" layoutY="84.0" prefHeight="67.0" prefWidth="89.0">
+            <children>
+                <Label layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="58.0" text="Lincorn" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="14.0" layoutY="42.0" text="Count:" />
+                <Label fx:id="lincornCount" layoutX="68.0" layoutY="42.0" text="0" />
+            </children>
+        </Pane>
+        <Pane layoutX="14.0" layoutY="151.0" prefHeight="67.0" prefWidth="89.0">
+            <children>
+                <Label layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="51.0" text="Cruiser">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="14.0" layoutY="42.0" text="Count:" />
+                <Label fx:id="cruiserCount" layoutX="68.0" layoutY="42.0" text="0" />
+            </children>
+        </Pane>
+        <Pane layoutX="14.0" layoutY="218.0" prefHeight="67.0" prefWidth="89.0">
+            <children>
+                <Label layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="79.0" text="Destroyer">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="14.0" layoutY="42.0" text="Count:" />
+                <Label fx:id="destroyerCount" layoutX="68.0" layoutY="42.0" text="0" />
+            </children>
+        </Pane>
+        <Pane layoutX="14.0" layoutY="285.0" prefHeight="67.0" prefWidth="89.0">
+            <children>
+                <Label id="submarine_count" layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="79.0" text="Submarine">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="14.0" layoutY="42.0" text="Count:" />
+                <Label fx:id="submarineCount" layoutX="68.0" layoutY="42.0" text="0" />
+            </children>
+        </Pane>
+      <Pane layoutX="14.0" layoutY="351.0" prefHeight="67.0" prefWidth="89.0">
+         <children>
+            <Label layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="79.0" text="Mine">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="42.0" text="Count:" />
+            <Label fx:id="mineCount" layoutX="68.0" layoutY="42.0" text="0" />
+         </children>
+      </Pane>
+      <ToggleButton fx:id="stateButton" layoutX="471.0" layoutY="112.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Remove" />
+      <Button fx:id="lincornAdd" layoutX="103.0" layoutY="99.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="cruiserAdd" layoutX="103.0" layoutY="164.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="destroyerAdd" layoutX="103.0" layoutY="227.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="submarineAdd" layoutX="103.0" layoutY="294.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="mineAdd" layoutX="103.0" layoutY="360.0" mnemonicParsing="false" text="+" />
+    </children>
+</AnchorPane>
