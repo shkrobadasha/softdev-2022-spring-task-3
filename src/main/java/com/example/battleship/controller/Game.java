@@ -113,10 +113,11 @@ public class Game implements Field.FieldAction {
         strikeIndexes.add(index);
 
         Field field = getCurrentField();
-        int countStrikes = switch (currentMode) {
-            case CLASSIC -> 1;
-            default -> getAnotherField(field).getMaxSizeOfAliveShip();
-        };
+        int countStrikes = 1;
+
+        if (currentMode != Mode.CLASSIC) {
+            getAnotherField(field).getMaxSizeOfAliveShip();
+        }
 
         applyStrikes(field, countStrikes);
     }
@@ -128,10 +129,7 @@ public class Game implements Field.FieldAction {
         ArrayList<Integer> currentStrikeIndexes = new ArrayList<>(strikeIndexes);
 
         ArrayList<Boolean> currentStrikeResult = new ArrayList<>();
-        boolean changeTurnIsNeeded = switch (currentMode) {
-            case CLASSIC -> true;
-            default -> false;
-        };
+        boolean changeTurnIsNeeded = currentMode == Mode.CLASSIC;
 
         for (int i : currentStrikeIndexes) {
             Boolean result = field.strike(i, changeTurnIsNeeded);

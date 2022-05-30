@@ -248,12 +248,26 @@ public class SceneSetup {
         shipCounts.put(shipItem, --count);
 
         String countStr = Integer.toString(count);
+        updateCountLabelText(shipItem, countStr);
+    }
+
+    private void updateCountLabelText(Items shipItem, String countStr) {
         switch (shipItem) {
-            case LINCORN -> lincornCount.setText(countStr);
-            case CRUISER -> cruiserCount.setText(countStr);
-            case DESTROYER -> destroyerCount.setText(countStr);
-            case SUBMARINE -> submarineCount.setText(countStr);
-            case MINE -> mineCount.setText(countStr);
+            case LINCORN:
+                lincornCount.setText(countStr);
+                break;
+            case CRUISER:
+                cruiserCount.setText(countStr);
+                break;
+            case DESTROYER:
+                destroyerCount.setText(countStr);
+                break;
+            case SUBMARINE:
+                submarineCount.setText(countStr);
+                break;
+            case MINE:
+                mineCount.setText(countStr);
+                break;
         }
     }
 
@@ -301,13 +315,7 @@ public class SceneSetup {
         shipCounts.put(currentShipItem, ++count);
 
         String countStr = Integer.toString(count);
-        switch (currentShipItem) {
-            case LINCORN -> lincornCount.setText(countStr);
-            case CRUISER -> cruiserCount.setText(countStr);
-            case DESTROYER -> destroyerCount.setText(countStr);
-            case SUBMARINE -> submarineCount.setText(countStr);
-            case MINE -> mineCount.setText(countStr);
-        }
+        updateCountLabelText(currentShipItem, countStr);
     }
 
     private AbstractShip createShip(Items currentShipItem, ArrayList<Integer> indexes) {
@@ -317,13 +325,26 @@ public class SceneSetup {
             indexArray[i] = indexes.get(i);
         }
 
-        return switch (currentShipItem) {
-            case LINCORN -> new Lincorn(indexArray);
-            case CRUISER -> new Cruiser(indexArray);
-            case DESTROYER -> new Destroyer(indexArray);
-            case SUBMARINE -> new Submarine(indexArray);
-            case MINE -> new Mine(indexArray);
-        };
+        AbstractShip ship;
+        switch (currentShipItem) {
+            case LINCORN:
+                ship = new Lincorn(indexArray);
+                break;
+            case CRUISER:
+                ship = new Cruiser(indexArray);
+                break;
+            case DESTROYER:
+                ship = new Destroyer(indexArray);
+                break;
+            case SUBMARINE:
+                ship = new Submarine(indexArray);
+                break;
+            default:
+                ship = new Mine(indexArray);
+                break;
+        }
+
+        return ship;
     }
 
     private void showPlayerName(int i) {

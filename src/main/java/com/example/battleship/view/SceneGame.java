@@ -70,10 +70,18 @@ public class SceneGame implements Initializable {
         @Override
         public void onStrike(int index, Result result) {
 
-            String color = switch (result) {
-                case SHIP -> SHIP_COLOR;
-                case MINE -> MINE_COLOR;
-                case MISS -> MISS_COLOR;
+            String color;
+
+            switch (result) {
+                case SHIP:
+                    color = SHIP_COLOR;
+                    break;
+                case MINE:
+                    color = MINE_COLOR;
+                    break;
+                default:
+                    color = MISS_COLOR;
+                    break;
             };
 
             if (Main.sceneController.getGame().getCurrentMode() == Game.Mode.SALVO_BLIND) {

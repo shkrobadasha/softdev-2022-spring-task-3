@@ -21,11 +21,19 @@ public class SceneController {
         currentStage = stage;
 
         try {
-            Scene scene = switch (state) {
-                case REGISTRATION -> new Scene(FXMLLoader.load(Main.class.getResource("layout_start.fxml")));
-                case SETUP_GAME -> new Scene(FXMLLoader.load(Main.class.getResource("layout_setup.fxml")));
-                case GAME -> new Scene(FXMLLoader.load(Main.class.getResource("layout_game.fxml")));
-                case FINISH_GAME -> new Scene(FXMLLoader.load(Main.class.getResource("layout_finish.fxml")));
+            Scene scene;
+            switch (state) {
+                case REGISTRATION:
+                    scene = new Scene(FXMLLoader.load(Main.class.getResource("layout_start.fxml")));
+                    break;
+                case SETUP_GAME:
+                    scene= new Scene(FXMLLoader.load(Main.class.getResource("layout_setup.fxml")));
+                    break;
+                case GAME:
+                    scene = new Scene(FXMLLoader.load(Main.class.getResource("layout_game.fxml")));
+                    break;
+                default: /*FINISH_GAME*/
+                    scene = new Scene(FXMLLoader.load(Main.class.getResource("layout_finish.fxml")));
             };
 
             currentStage.setScene(scene);

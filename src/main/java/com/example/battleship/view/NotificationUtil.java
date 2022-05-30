@@ -10,8 +10,12 @@ public class NotificationUtil {
         Notifications notifications = Notifications.create().title(title).text(message);
 
         switch (type) {
-            case INFORM -> notifications.showInformation();
-            case ERROR -> notifications.showError();
+            case INFORM:
+                notifications.showInformation();
+                break;
+            case ERROR:
+                notifications.showError();
+                break;
         }
     }
 
