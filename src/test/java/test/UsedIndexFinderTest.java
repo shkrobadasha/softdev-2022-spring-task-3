@@ -1,3 +1,5 @@
+package test;
+
 import com.example.battleship.controller.util.UsedIndexFinder;
 import org.junit.jupiter.api.Test;
 
@@ -135,5 +137,26 @@ public class UsedIndexFinderTest {
                 5);
 
         assertFalse(result);
+
+        list = new ArrayList<>() {{
+            //5x5
+            addAll(List.of(new Boolean[]{false, false, false, false, false}));
+            addAll(List.of(new Boolean[]{false, false, true, true, false}));
+            addAll(List.of(new Boolean[]{true, true, true, false, false}));
+            addAll(List.of(new Boolean[]{false, false, false, false, false}));
+            addAll(List.of(new Boolean[]{false, false, false, false, false}));
+        }};
+
+        result = UsedIndexFinder.hasUsedNeighbour(
+                list,
+                new HashSet<>() {{
+                    add(10);
+                    add(11);
+                    add(12);
+                }},
+                5,
+                5);
+
+        assertTrue(result);
     }
 }

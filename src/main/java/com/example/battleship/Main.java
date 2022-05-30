@@ -14,7 +14,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        sceneController.startScene(stage, SceneController.State.FIRST);
+    public void start(Stage stage) {
+        sceneController.startScene(stage, SceneController.State.REGISTRATION);
     }
 }

@@ -3,8 +3,6 @@ package com.example.battleship.controller.util;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class SpaceFinder {
 

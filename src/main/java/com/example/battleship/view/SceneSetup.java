@@ -7,6 +7,9 @@ import com.example.battleship.controller.util.ItemWrapper;
 import com.example.battleship.controller.util.SpaceFinder;
 import com.example.battleship.controller.util.UsedIndexFinder;
 import com.example.battleship.model.BattleShipException;
+import com.example.battleship.model.Field;
+import com.example.battleship.model.ships.AbstractShip;
+import com.example.battleship.model.ships.implementation.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,34 +17,31 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import static com.example.battleship.Main.sceneController;
+import static com.example.battleship.controller.util.CellColors.*;
 
 public class SceneSetup {
-    //TODO:
-    //  1) Коллекция для item - повторяет грид
-    //  2) Алгоритм размещения
-    //  3) rotate
-    //  4) add
+    private static final double SIDE = 29.75;
 
-    private static final double SIDE = 28.5;
-
-    private static final String SHIP_COLOR = Color.DARKGREEN.toString();
-    private static final String SELECT_SHIP_COLOR = Color.LIGHTGREEN.toString();
-    private static final String EMPTY_COLOR = Color.WHITE.toString();
+    @FXML
+    private Label cruise;
 
     @FXML
     private Button cruiserAdd;
 
     @FXML
     private Label cruiserCount;
+
+    @FXML
+    private Label destroyer;
 
     @FXML
     private Button destroyerAdd;
@@ -53,10 +53,16 @@ public class SceneSetup {
     private GridPane grid_pane;
 
     @FXML
+    private Label lincorn;
+
+    @FXML
     private Button lincornAdd;
 
     @FXML
     private Label lincornCount;
+
+    @FXML
+    private Label mine;
 
     @FXML
     private Button mineAdd;
@@ -74,6 +80,9 @@ public class SceneSetup {
     private ToggleButton stateButton;
 
     @FXML
+    private Label submarine;
+
+    @FXML
     private Button submarineAdd;
 
     @FXML
@@ -82,21 +91,33 @@ public class SceneSetup {
     private boolean isRemove = false;
     private int currentShipSize;
     private Items currentShipItem;
-    private HashMap<Items, Integer> shipCounts = new HashMap<>() {{
-        put(Items.LINCORN, 0);
-        put(Items.CRUISER, 0);
-        put(Items.DESTROYER, 0);
-        put(Items.SUBMARINE, 0);
-        put(Items.MINE, 0);
-    }};
-    private ArrayList<ItemWrapper<Rectangle>> cells = new ArrayList<>();
+    private HashMap<Items, Integer> shipCounts = getClearShipCounts();
+
+    private HashMap<Items, Integer> getClearShipCounts() {
+        return new HashMap<>() {{
+            put(Items.LINCORN, 0);
+            put(Items.CRUISER, 0);
+            put(Items.DESTROYER, 0);
+            put(Items.SUBMARINE, 0);
+            put(Items.MINE, 0);
+        }};
+    }
+
+    private final ArrayList<ItemWrapper<Rectangle>> cells = new ArrayList<>();
+    private final ArrayList<AbstractShip> ships = new ArrayList<>();//список всех кораблей,
+    // которые возможно разместить
     private boolean isVertical = false;
 
     @FXML
     public void initialize() {
         showPlayerName(0);
         nextButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            //TODO
+            try {
+                createField(ships);
+                startGameIfReady();
+            } catch (BattleShipException.HasUnusedShipException e) {
+                BattleShipExceptionHandler.handle(e);
+            }
         });
 
         stateButton.setOnMouseClicked(event -> setRemoveMode(stateButton.isSelected()));
@@ -117,19 +138,67 @@ public class SceneSetup {
                 item.setOnMouseExited(event -> unselect(itemWrapper));
                 item.setOnMouseClicked(event -> {
 
-                    if (event.getButton() == MouseButton.SECONDARY && !isRemove) {
-                        rotate(itemWrapper);
-
-                    }else if (!isRemove) {
-                        addItem(itemWrapper);
-                    } else {
+                    if (isRemove) {
                         remove(itemWrapper);
+                    } else if (event.getButton() == MouseButton.SECONDARY) {
+                        rotate(itemWrapper);
+                    } else {
+                        safetyAddItem(itemWrapper);
                     }
                 });
 
                 cells.add(itemWrapper);
                 grid_pane.add(item, x, y);
             }
+        }
+    }
+
+    private void startGameIfReady() {
+        if (sceneController.getGame().isReady()) {
+            sceneController.startScene(SceneController.State.GAME);
+        } else {
+            clearScene();
+            showPlayerName(1);
+        }
+    }
+
+    private void createField(ArrayList<AbstractShip> ships) throws BattleShipException.HasUnusedShipException {
+        if (ships.size() != Items.getTotalCount()) {
+            throw new BattleShipException.HasUnusedShipException();
+        }
+
+        Field field = new Field();
+        for (AbstractShip ship : ships) {
+            field.addShip(ship);
+        }
+
+        sceneController.getGame().addFields(field);
+    }
+
+    private void clearScene() {
+        String countStr = "0";
+        lincornCount.setText(countStr);
+        cruiserCount.setText(countStr);
+        destroyerCount.setText(countStr);
+        submarineCount.setText(countStr);
+        mineCount.setText(countStr);
+
+        shipCounts = getClearShipCounts();
+        ships.clear();
+
+        for (ItemWrapper<Rectangle> cell : cells) {
+            cell.setUsed(false);
+            cell.getItem().setFill(Paint.valueOf(EMPTY_COLOR));
+        }
+
+        currentShipSize = 0;
+    }
+
+    private void safetyAddItem(ItemWrapper<Rectangle> itemWrapper) {
+        try {
+            addItem(itemWrapper);
+        } catch (BattleShipException.SetupException e) {
+            BattleShipExceptionHandler.handle(e);
         }
     }
 
@@ -146,6 +215,9 @@ public class SceneSetup {
             BattleShipExceptionHandler.handle(e);
         }
 
+        stateButton.setSelected(false);
+        setRemoveMode(stateButton.isSelected());
+
         currentShipSize = item.getSize();
         currentShipItem = item;
     }
@@ -161,43 +233,70 @@ public class SceneSetup {
             return;
         }
 
-        itemWrapper.setUsed(false);
-        int count = shipCounts.get(currentShipItem);
-        shipCounts.put(currentShipItem, --count); // TODO поиск по количеству
+        AbstractShip ship = findShipByIndex(itemWrapper.getIndex());
+        ArrayList<Integer> indexes = ship.getIndexes();
+        ships.remove(ship);
+
+        for (int i : indexes) {
+            ItemWrapper<Rectangle> currentItemWrapper = cells.get(i);
+            currentItemWrapper.setUsed(false);
+            paintItem(currentItemWrapper.getItem(), EMPTY_COLOR);
+        }
+
+        Items shipItem = Items.getItemFromShip(ship);
+        int count = shipCounts.get(shipItem);
+        shipCounts.put(shipItem, --count);
 
         String countStr = Integer.toString(count);
-        switch (currentShipItem) {
+        switch (shipItem) {
             case LINCORN -> lincornCount.setText(countStr);
             case CRUISER -> cruiserCount.setText(countStr);
             case DESTROYER -> destroyerCount.setText(countStr);
             case SUBMARINE -> submarineCount.setText(countStr);
             case MINE -> mineCount.setText(countStr);
         }
-
-        paintItem(itemWrapper.getItem(), EMPTY_COLOR);
     }
 
-    private void addItem(ItemWrapper<Rectangle> itemWrapper) {
+    private AbstractShip findShipByIndex(int index) {
+
+        for (AbstractShip ship : ships) {
+            if (ship.hasCells(index)) {
+                return ship;
+            }
+        }
+
+        throw new IllegalArgumentException();
+    }
+
+    private void addItem(ItemWrapper<Rectangle> itemWrapper) throws BattleShipException.SetupException {
         if (currentShipSize == 0) return;
         if (itemWrapper.isUsed()) return;
 
-        try {
-            checkCount(currentShipItem);
-        } catch (BattleShipException.ShipItemCountException e) {
-            BattleShipExceptionHandler.handle(e);
-            return;
-        }
+        checkCount(currentShipItem);
 
+        ArrayList<Integer> indexItemsToCLick = SpaceFinder.findSpaceFromItemWrapper(
+                cells, itemWrapper.getIndex(), 10, 10, currentShipSize, isVertical
+        );
         boolean hasNeighbour = UsedIndexFinder.hasUsedNeighbourFromItemWrapper(cells, new HashSet<>() {{
-            add(itemWrapper.toIndex(10));
+            addAll(indexItemsToCLick);
         }}, 10, 10);
 
-        if (hasNeighbour) {
-            BattleShipExceptionHandler.handle(new BattleShipException.ItemSpaceException());
-            return;
+        if (hasNeighbour || indexItemsToCLick.isEmpty()) throw new BattleShipException.ItemSpaceException();
+
+        for (int index : indexItemsToCLick) {
+            ItemWrapper<Rectangle> currentItemWrapper = cells.get(index);
+            currentItemWrapper.setUsed(true);
+            String color = SHIP_COLOR;
+
+            if (currentShipItem == Items.MINE) {
+                color = MINE_COLOR;
+            }
+
+            paintItem(currentItemWrapper.getItem(), color);
         }
 
-        itemWrapper.setUsed(true);
+        ships.add(createShip(currentShipItem, indexItemsToCLick));
+
         int count = shipCounts.get(currentShipItem);
         shipCounts.put(currentShipItem, ++count);
 
@@ -209,8 +308,22 @@ public class SceneSetup {
             case SUBMARINE -> submarineCount.setText(countStr);
             case MINE -> mineCount.setText(countStr);
         }
+    }
 
-        paintItem(itemWrapper.getItem(), SHIP_COLOR);
+    private AbstractShip createShip(Items currentShipItem, ArrayList<Integer> indexes) {
+        int[] indexArray = new int[indexes.size()];
+
+        for (int i = 0; i < indexes.size(); i++) {
+            indexArray[i] = indexes.get(i);
+        }
+
+        return switch (currentShipItem) {
+            case LINCORN -> new Lincorn(indexArray);
+            case CRUISER -> new Cruiser(indexArray);
+            case DESTROYER -> new Destroyer(indexArray);
+            case SUBMARINE -> new Submarine(indexArray);
+            case MINE -> new Mine(indexArray);
+        };
     }
 
     private void showPlayerName(int i) {
@@ -234,7 +347,8 @@ public class SceneSetup {
 
     private ArrayList<Rectangle> getSelectedItems(ItemWrapper<Rectangle> itemWrapper) {
         ArrayList<Integer> result = SpaceFinder.findSpaceFromItemWrapper(
-                cells, itemWrapper.toIndex(10), 10, 10, currentShipSize, isVertical);
+                cells, itemWrapper.getIndex(), 10, 10, currentShipSize, isVertical
+        );
         ArrayList<Rectangle> selectedItems = new ArrayList<>();
 
         for (int i : result) {

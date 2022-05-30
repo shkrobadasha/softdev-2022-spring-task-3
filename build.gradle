@@ -1,9 +1,11 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.openjfx.javafxplugin' version '0.0.10'//10
     id 'org.beryx.jlink' version '2.24.1'
 }
+
+
 
 group 'com.example'
 version '1.0-SNAPSHOT'
@@ -47,8 +49,14 @@ dependencies {
         exclude(group: 'org.openjfx')
     }
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+//    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    implementation "org.testfx:testfx-junit5:4.0.16-alpha"
+    implementation "org.testfx:testfx-core:4.0.16-alpha"
+//    implementation 'net.sf.jopt-simple:jopt-simple:6.0-alpha-2'
+
 }
 
 test {
@@ -56,6 +64,7 @@ test {
         runOnClasspath = true
     }
     useJUnitPlatform()
+    testLogging { events "passed", "skipped", "failed" }//plus
 }
 
 

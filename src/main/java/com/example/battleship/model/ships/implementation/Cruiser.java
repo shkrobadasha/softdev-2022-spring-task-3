@@ -5,8 +5,8 @@ import com.example.battleship.model.ships.AbstractShip;
 
 public class Cruiser extends AbstractShip {
 
-    public Cruiser(int[] cellIndex) {//для каждого отдельного корабля обьявляется массив
-        super(3, cellIndex);
+    public Cruiser(int[] cellIndexes) {//для каждого отдельного корабля обьявляется массив
+        super(3, cellIndexes);
     }
 
 }

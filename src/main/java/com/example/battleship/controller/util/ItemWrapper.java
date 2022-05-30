@@ -10,12 +10,16 @@ public class ItemWrapper<T> {
     private int x;
     private int y;
 
-    public static int toIndex(int x, int y, int width) {
+    public static int getIndex(int x, int y, int width) {
         return x * width + y;
     }
 
-    public int toIndex(int width) {
-        return toIndex(x, y, width);
+    public int getIndex(int width) {
+        return getIndex(x, y, width);
+    }
+
+    public int getIndex() {
+        return getIndex(10);
     }
 
     public boolean isUsed() {

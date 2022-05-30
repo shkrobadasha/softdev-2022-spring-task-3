@@ -50,5 +50,13 @@ public abstract class BattleShipException extends Exception{
         }
     }
 
+    public static class HasUnusedShipException extends SetupException {
+
+        public HasUnusedShipException() {
+            super("Не всё вооружение задействовано, капитан");
+        }
+    }
+
+
 
 }

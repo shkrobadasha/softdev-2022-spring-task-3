@@ -8,9 +8,11 @@ module com.example.battleship {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
+    requires org.testfx;
 
     exports com.example.battleship.view;
     opens com.example.battleship.view to javafx.fxml;
     exports com.example.battleship;
     opens com.example.battleship to javafx.fxml;
+
 }

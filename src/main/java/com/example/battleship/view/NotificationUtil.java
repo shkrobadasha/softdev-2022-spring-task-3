@@ -19,4 +19,8 @@ public class NotificationUtil {
         notify(Type.ERROR, Type.ERROR.name(), message);
     }
 
+    public static void notifyInfo(String playerName, String message) {
+        notify(Type.INFORM, playerName, message);
+    }
+
 }

@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 
 public class SceneStart implements Initializable {
 
-
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -35,7 +34,6 @@ public class SceneStart implements Initializable {
 
     private String firstPlayer;
     private String secondPlayer;
-
     private Game.Mode currentMode;
 
     @Override
@@ -63,12 +61,9 @@ public class SceneStart implements Initializable {
                     new Player[]{new Player(firstPlayer), new Player(secondPlayer)},
                     currentMode
             );
-            Main.sceneController.startScene(SceneController.State.SECOND);
+            Main.sceneController.startScene(SceneController.State.SETUP_GAME);
         } catch (BattleShipException.RegistrationException e) {
             BattleShipExceptionHandler.handle(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 }
-

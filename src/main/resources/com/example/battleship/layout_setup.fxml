@@ -51,7 +51,7 @@
         <Button fx:id="nextButton" layoutX="240.0" layoutY="438.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="119.0" text="Next" />
         <Pane layoutX="14.0" layoutY="84.0" prefHeight="67.0" prefWidth="89.0">
             <children>
-                <Label layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="58.0" text="Lincorn" textAlignment="CENTER">
+                <Label fx:id="lincorn" layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="58.0" text="Lincorn" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
@@ -62,7 +62,7 @@
         </Pane>
         <Pane layoutX="14.0" layoutY="151.0" prefHeight="67.0" prefWidth="89.0">
             <children>
-                <Label layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="51.0" text="Cruiser">
+                <Label fx:id="cruiser" layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="51.0" text="Cruiser">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
@@ -73,7 +73,7 @@
         </Pane>
         <Pane layoutX="14.0" layoutY="218.0" prefHeight="67.0" prefWidth="89.0">
             <children>
-                <Label layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="79.0" text="Destroyer">
+                <Label fx:id="destroyer" layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="79.0" text="Destroyer">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
@@ -84,7 +84,7 @@
         </Pane>
         <Pane layoutX="14.0" layoutY="285.0" prefHeight="67.0" prefWidth="89.0">
             <children>
-                <Label id="submarine_count" layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="79.0" text="Submarine">
+                <Label fx:id="submarine" layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="79.0" text="Submarine">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
@@ -95,7 +95,7 @@
         </Pane>
       <Pane layoutX="14.0" layoutY="351.0" prefHeight="67.0" prefWidth="89.0">
          <children>
-            <Label layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="79.0" text="Mine">
+            <Label fx:id="mine" layoutX="5.0" layoutY="14.0" prefHeight="21.0" prefWidth="79.0" text="Mine">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

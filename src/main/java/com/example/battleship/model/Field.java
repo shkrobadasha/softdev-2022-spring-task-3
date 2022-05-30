@@ -1,29 +1,44 @@
 package com.example.battleship.model;
 
 import com.example.battleship.model.ships.AbstractShip;
+import com.example.battleship.model.ships.implementation.Mine;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class Field {//сюда нужно добавить расстановку кораблей(ориентация,вокруг пусто) + мины + выводило новое поле
+public class Field {
 
     private static final int SIZE = 10 * 10;
-    private final boolean[] cells;// По умолчанию все false, если в клетку уже стреляли, то true
+    private final boolean[] cells;
     private final ArrayList<AbstractShip> ships = new ArrayList<>();//массив всех корабликов
 
+    private FieldAction fieldActionListener;
+    private StrikeAction strikeActionListener;
+
     // первое Int - size корабля, второе - count
-    //это мапа для хранения клеточек отдельного корабля
+    //для хранения всех кораблей
     private final Map<Integer, Integer> validateMap = new HashMap<>();
 
     public Field() {
         cells = new boolean[SIZE];
-    }//тут у нас обьявилось поле размера SIZE 10 на 10
-    //заполним поле пустымми клеточками
+    }//тут у нас объявилось поле размера SIZE 10 на 10
+    //заполним поле пустыми клеточками
 
-    public void addShip(AbstractShip ship) {// Просто добавляет корабль в которм уже есть клетки.
+    public void setActionListener(FieldAction fieldActionListener) {
+
+        this.fieldActionListener = fieldActionListener;
+    }
+
+    public void setStrikeActionListener(StrikeAction strikeActionListener) {
+        this.strikeActionListener = strikeActionListener;
+    }
+
+    public void addShip(AbstractShip ship) {
         int size = ship.getSize();
-        int count = validateMap.get(size);//равно размеру корабля
+        int count = validateMap.getOrDefault(size, 0);
+
+        if (ship instanceof Mine) {
+            size = 0; // Для того чтобы в validate макс кол-во было 5
+        }
 
         validate(size, count);//Проверяет возможность добавление нового корабля данного типа
         validateMap.put(size, count);
@@ -38,38 +53,157 @@ public class Field {//сюда нужно добавить расстановк�
         }
     }
 
-    public boolean strike(int index) {// True - попал, False - мимо
-        if (cells[index]) throw new IllegalArgumentException();//если хочет тыкнуть в ту, которая уже тру и которая уже помечена на убитую
+    /*public void strike(int index) {
+        strike(index, true);
+    }*/
+
+    public Boolean strike(int index, boolean isNeed) {
+        if (cells[index]) {
+            return null; // Может возникнуть ситуация, когда игрок попал в мину, а мина второго игрока попала мину первого
+        }
 
         cells[index] = true;
 
-        int indexShip = -1;
-        boolean isAlive = true;
-
-        for (int i = 0; i < ships.size(); i++) {
-            AbstractShip ship = ships.get(i);
+        for (int indexShip = 0; indexShip < ships.size(); indexShip++) {
+            AbstractShip ship = ships.get(indexShip);
 
             if (ship.hasCells(index)) {
                 ship.strike(index);
-                indexShip = i;
-                isAlive = ship.isAlive();
-                break;
+
+                boolean isMine = ship instanceof Mine;
+
+                if (isMine) {
+                    strikeAction(index, StrikeAction.Result.MINE);
+                } else {
+                    strikeAction(index, StrikeAction.Result.SHIP);
+                }
+
+                if (!ship.isAlive()) {
+
+                    if (isMine) {
+                        mineWasSunkAction(index);
+                        changeTurnIfIsNeeded(isNeed);
+                    } else {
+                        shipWasSunkAction();
+                    }
+
+                    removeShip(indexShip);
+                }
+
+                return !isMine;
             }
-
         }
 
-        if (indexShip != -1 && !isAlive) {
-            ships.remove(index);
-        }
+        strikeAction(index, StrikeAction.Result.MISS);
+        changeTurnIfIsNeeded(isNeed);
 
-        return indexShip != -1;
+        return null;
     }
 
+    private void changeTurnIfIsNeeded(boolean isNeed) {
+        if (isNeed) {
+            changeTurnAction();
+        }
+    }
 
-//проверка что мы добавили все корабли
+    private void removeShip(int indexShip) {
+        ships.remove(indexShip);
+        if (isFinish()) finishGameAction();
+    }
+
+    private void finishGameAction() {
+        if (fieldActionListener != null) {
+            fieldActionListener.finishGame(this);
+        }
+    }
+
+    private void shipWasSunkAction() {
+        if (fieldActionListener != null) {
+            fieldActionListener.shipWasSunk(this);
+        }
+    }
+
+    private void mineWasSunkAction(int index) {
+        if (fieldActionListener != null) {
+            fieldActionListener.mineWasSunk(this, index);
+        }
+    }
+
+    private void changeTurnAction() {
+        if (fieldActionListener != null) {
+            fieldActionListener.changeTurn(this);
+        }
+    }
+
+    private void strikeAction(int index, StrikeAction.Result result) {
+        if (strikeActionListener != null) {
+            strikeActionListener.onStrike(index, result);
+        }
+    }
 
     public boolean isFinish() {
-        return ships.isEmpty();
+        for (AbstractShip ship : ships) {
+            if (ship instanceof Mine) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public int getMaxSizeOfAliveShip() {
+        int max = 0;
+
+        for (AbstractShip ship : ships) {
+            max = Math.max(max, ship.getSize());
+        }
+
+        return max;
+    }
+
+    public void setEnable(boolean isEnable) {
+        if (strikeActionListener != null) {
+            strikeActionListener.setEnable(isEnable);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Field field = (Field) o;
+
+        return Arrays.equals(cells, field.cells) && Objects.equals(ships, field.ships) && Objects.equals(fieldActionListener, field.fieldActionListener) && Objects.equals(validateMap, field.validateMap);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(ships, fieldActionListener, validateMap);
+        result = 31 * result + Arrays.hashCode(cells);
+
+        return result;
+    }
+
+    public interface FieldAction {
+
+        void changeTurn(Field field);
+
+        void finishGame(Field field);
+
+        void shipWasSunk(Field field);
+
+        void mineWasSunk(Field field, int index);
+
+    }
+
+    public interface StrikeAction {
+
+        enum Result {SHIP, MINE, MISS}
+
+        void onStrike(int index, Result result);
+
+        void setEnable(boolean isEnable);
+
     }
 
 }

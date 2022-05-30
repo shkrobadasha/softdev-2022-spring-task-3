@@ -4,8 +4,8 @@ import com.example.battleship.model.ships.AbstractShip;
 
 public class Submarine extends AbstractShip {
 
-    public Submarine(int cellIndex) {
-        super(1, new int[]{cellIndex});
+    public Submarine(int[] cellIndexes) {
+        super(1, cellIndexes);
     }
 
 }

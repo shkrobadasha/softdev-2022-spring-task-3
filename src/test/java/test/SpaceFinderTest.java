@@ -1,11 +1,10 @@
+package test;
+
 import com.example.battleship.controller.util.SpaceFinder;
 import com.example.battleship.controller.util.UsedIndexFinder;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
