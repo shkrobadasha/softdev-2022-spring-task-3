@@ -18,12 +18,12 @@ import java.util.ArrayList;
 
 public class Game implements Field.FieldAction {
 
+    private final ArrayList<Field> fields = new ArrayList<>();//для хранения 2 полей
+    private final ArrayList<Integer> strikeIndexes = new ArrayList<>();//для текущих выстрелов
     private Player[] players;
     private Player winner;
-    private final ArrayList<Field> fields = new ArrayList<>();//для хранения 2 полей
     private Mode currentMode;
-    private final ArrayList<Integer> strikeIndexes = new ArrayList<>();//для текущих выстрелов
-    private int moveCount = 0;//счетчик очередности
+    private int moveCount = 1;//счетчик очередности
 
     public void setRegistrationData(Player[] players, Mode currentMode) throws BattleShipException.RegistrationException {
         setPlayers(players);
@@ -71,7 +71,7 @@ public class Game implements Field.FieldAction {
 
     @Override
     public void finishGame(Field field) {
-        int indexField = fields.indexOf(field);
+        int indexField = fields.indexOf(getAnotherField(field));
         if (indexField == -1) {
             return;
         }
@@ -79,11 +79,6 @@ public class Game implements Field.FieldAction {
         winner = players[indexField];
         NotificationUtil.notifyInfo(winner.getName(), "Победил");
         Main.sceneController.startScene(SceneController.State.FINISH_GAME);
-    }
-
-    private void setCurrentMode(Mode currentMode) throws ModeNotFoundException {
-        validateCurrentMode(currentMode);
-        this.currentMode = currentMode;
     }
 
     private void validateCurrentMode(Mode currentMode) throws ModeNotFoundException {
@@ -106,7 +101,7 @@ public class Game implements Field.FieldAction {
     }
 
     public Player getCurrentPlayer() {
-        return players[(moveCount) % 2];
+        return players[(moveCount - 1) % 2];
     }
 
     public void addStrike(int index) {
@@ -146,9 +141,8 @@ public class Game implements Field.FieldAction {
         }
     }
 
-
     public void registerStrikeActionListeners(Field.StrikeAction forFirstField, Field.StrikeAction forSecondField) {
-        forFirstField.setEnable(true);
+        forSecondField.setEnable(true);
         fields.get(0).setStrikeActionListener(forFirstField);
         fields.get(1).setStrikeActionListener(forSecondField);
     }
@@ -180,6 +174,11 @@ public class Game implements Field.FieldAction {
         return currentMode;
     }
 
+    private void setCurrentMode(Mode currentMode) throws ModeNotFoundException {
+        validateCurrentMode(currentMode);
+        this.currentMode = currentMode;
+    }
+
     public enum Items {
         LINCORN(4, 1),
         CRUISER(3, 2),
@@ -205,14 +204,6 @@ public class Game implements Field.FieldAction {
             return count;
         }
 
-        public int getSize() {
-            return size;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
         public static Items getItemFromShip(AbstractShip ship) {
             if (ship instanceof Lincorn) {
                 return Items.LINCORN;
@@ -225,6 +216,14 @@ public class Game implements Field.FieldAction {
             } else {
                 return Items.MINE;
             }
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public int getCount() {
+            return count;
         }
     }
 
