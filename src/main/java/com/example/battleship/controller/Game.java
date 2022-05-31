@@ -44,21 +44,19 @@ public class Game implements Field.FieldAction {
         field.setActionListener(this);
     }
 
-    @Override
+    @Override //
     public void shipWasSunk(Field field) {
-        int indexField = fields.indexOf(field);
-        if (indexField != -1) {
-            NotificationUtil.notifyInfo(players[indexField].getName(), "Потопил корабль");
-        }
+        int indexOfAnotherField = fields.indexOf(getAnotherField(field));
+        NotificationUtil.notifyInfo(players[indexOfAnotherField].getName(), "Потопил корабль");
     }
 
     @Override
     public void mineWasSunk(Field field, int index) {
-        int indexField = fields.indexOf(field);
-        if (indexField != -1) {
-            NotificationUtil.notifyInfo(players[indexField].getName(), "Потопил мину");
-        }
-        getAnotherField(field).strike(index, false);
+        Field anotherField = getAnotherField(field);
+
+        int indexOfAnotherField = fields.indexOf(anotherField);
+        NotificationUtil.notifyInfo(players[indexOfAnotherField].getName(), "Потопил мину");
+        anotherField.strike(index, false);
     }
 
     @Override
