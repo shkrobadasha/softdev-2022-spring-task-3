@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractShip {
-
     protected int size;
     protected Map<Integer, Boolean> cells = new HashMap<>();//мапа для собственных клеток кораблч
 

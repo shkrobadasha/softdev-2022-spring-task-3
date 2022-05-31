@@ -24,7 +24,6 @@ public class Field {
     //заполним поле пустыми клеточками
 
     public void setActionListener(FieldAction fieldActionListener) {
-
         this.fieldActionListener = fieldActionListener;
     }
 
@@ -40,7 +39,7 @@ public class Field {
             size = 0; // Для того чтобы в validate макс кол-во было 5
         }
 
-        validate(size, count);//Проверяет возможность добавление нового корабля данного типа
+        validate(size, count);//Проверяет возможность добавление нового корабля данного типа(размера)
         validateMap.put(size, count);
         ships.add(ship);
     }
