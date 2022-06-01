@@ -6,17 +6,17 @@ import java.util.ArrayList;
 
 public class SpaceFinder {
 
-    private static ArrayList<Boolean> getBooleanList(ArrayList<ItemWrapper<Rectangle>> list) {
+    private static <T> ArrayList<Boolean> getBooleanList(ArrayList<ItemWrapper<T>> list) {
         ArrayList<Boolean> blockList = new ArrayList<>();
-        for (ItemWrapper<Rectangle> item : list) {
+        for (ItemWrapper<T> item : list) {
             blockList.add(item.isUsed());
         }
 
         return blockList;
     }
 
-    public static ArrayList<Integer> findSpaceFromItemWrapper(
-            ArrayList<ItemWrapper<Rectangle>> list,
+    public static <T> ArrayList<Integer> findSpaceFromItemWrapper(
+            ArrayList<ItemWrapper<T>> list,
             int startIndex,
             int width,
             int height,
@@ -38,13 +38,13 @@ public class SpaceFinder {
 
         if (isVertical) {
             int endIndex = startIndex + (size - 1) * height;
-            if (endIndex / height >= height) return spaceIndexList;
+            if (endIndex / height >= height) return spaceIndexList;//нельзя разместить
 
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++) {//заполняем сп от начального до длины
                 index = startIndex + i * height;
                 spaceIndexList.add(index);
 
-                if (list.get(index)) {
+                if (list.get(index)) {//если там уже занято
                     spaceIndexList.clear();
                     break;
                 }

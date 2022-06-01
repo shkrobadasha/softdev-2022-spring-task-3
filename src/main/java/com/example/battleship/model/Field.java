@@ -9,7 +9,7 @@ public class Field {
 
     private static final int SIZE = 10 * 10;
     private final boolean[] cells;
-    private final ArrayList<AbstractShip> ships = new ArrayList<>();//массив всех корабликов
+    private final List<AbstractShip> ships = new ArrayList<>();//массив всех корабликов
 
     private FieldAction fieldActionListener;
     private StrikeAction strikeActionListener;
@@ -40,6 +40,7 @@ public class Field {
         }
 
         validate(size, count);//Проверяет возможность добавление нового корабля данного типа(размера)
+        count++;
         validateMap.put(size, count);
         ships.add(ship);
     }
@@ -56,9 +57,9 @@ public class Field {
         strike(index, true);
     }*/
 
-    public Boolean strike(int index, boolean isNeed) {
+    public StrikeAction.Result strike(int index, boolean isNeedChangeTurn) {
         if (cells[index]) {
-            return null; // Может возникнуть ситуация, когда игрок попал в мину, а мина второго игрока попала мину первого
+            return StrikeAction.Result.EMPTY; // Может возникнуть ситуация, когда игрок попал в мину, а мина второго игрока попала мину первого
         }
 
         cells[index] = true;
@@ -71,9 +72,12 @@ public class Field {
 
                 boolean isMine = ship instanceof Mine;
 
+                StrikeAction.Result result;
                 if (isMine) {
+                    result = StrikeAction.Result.MINE;
                     strikeAction(index, StrikeAction.Result.MINE);
                 } else {
+                    result = StrikeAction.Result.SHIP;
                     strikeAction(index, StrikeAction.Result.SHIP);
                 }
 
@@ -81,7 +85,7 @@ public class Field {
 
                     if (isMine) {
                         mineWasSunkAction(index);
-                        changeTurnIfIsNeeded(isNeed);
+                        changeTurnIfIsNeeded(isNeedChangeTurn);
                     } else {
                         shipWasSunkAction();
                     }
@@ -89,14 +93,14 @@ public class Field {
                     removeShip(indexShip);
                 }
 
-                return !isMine;
+                return result;
             }
         }
 
         strikeAction(index, StrikeAction.Result.MISS);
-        changeTurnIfIsNeeded(isNeed);
+        changeTurnIfIsNeeded(isNeedChangeTurn);
 
-        return null;
+        return StrikeAction.Result.MISS;
     }
 
     private void changeTurnIfIsNeeded(boolean isNeed) {
@@ -172,17 +176,15 @@ public class Field {
         if (o == null || getClass() != o.getClass()) return false;
         Field field = (Field) o;
 
-        return Arrays.equals(cells, field.cells) && Objects.equals(ships, field.ships) && Objects.equals(fieldActionListener, field.fieldActionListener) && Objects.equals(validateMap, field.validateMap);
+        return Arrays.equals(cells, field.cells) && Objects.equals(ships, field.ships)
+                && Objects.equals(fieldActionListener, field.fieldActionListener)
+                && Objects.equals(validateMap, field.validateMap);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(ships, fieldActionListener, validateMap);
-        result = 31 * result + Arrays.hashCode(cells);
-
-        return result;
+        return Objects.hash(ships, fieldActionListener, validateMap, Arrays.hashCode(cells));
     }
-
     public interface FieldAction {
 
         void changeTurn(Field field);
@@ -197,7 +199,7 @@ public class Field {
 
     public interface StrikeAction {
 
-        enum Result {SHIP, MINE, MISS}
+        enum Result {SHIP, MINE, MISS, EMPTY}
 
         void onStrike(int index, Result result);
 

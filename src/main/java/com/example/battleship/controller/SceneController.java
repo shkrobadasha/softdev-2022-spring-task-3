@@ -1,4 +1,4 @@
-package com.example.battleship.view;
+package com.example.battleship.controller;
 
 import com.example.battleship.Main;
 import com.example.battleship.controller.Game;
@@ -9,6 +9,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SceneController {
+
+    private static SceneController instance;
+
+    private SceneController() {
+    }
+
+    public static SceneController getInstance() {
+        if (instance == null) {
+            instance = new SceneController();
+        }
+
+        return instance;
+    }
 
     private Stage currentStage;
     private final Game game = new Game();
@@ -53,4 +66,5 @@ public class SceneController {
         GAME,
         FINISH_GAME
     }
+
 }

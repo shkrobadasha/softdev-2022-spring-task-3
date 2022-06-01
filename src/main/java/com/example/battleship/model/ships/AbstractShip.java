@@ -2,12 +2,12 @@ package com.example.battleship.model.ships;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractShip {
     protected int size;
     protected Map<Integer, Boolean> cells = new HashMap<>();//мапа для собственных клеток кораблч
-
 
     public AbstractShip(int size, int[] cellIndexes) {
         this.size = size;
@@ -19,7 +19,7 @@ public abstract class AbstractShip {
     }
 
     final public boolean isAlive(){
-        int count = 0;//читает колиичество убитых клеток корабля
+        int count = 0;//читает количество убитых клеток корабля
 
         for (boolean b : cells.values()) {
             if (b) count++;
@@ -28,11 +28,11 @@ public abstract class AbstractShip {
         return count < cells.size();
     }
 
-    public int getSize() {//геттер для размера
+    final public int getSize() {//геттер для размера
         return size;
     }
 
-    public ArrayList<Integer> getIndexes(){
+    public List<Integer> getIndexes(){
         return new ArrayList<>(cells.keySet());
     }
     final public boolean hasCells(int index) {
@@ -42,6 +42,5 @@ public abstract class AbstractShip {
     final public void strike(int index) {
         cells.put(index, true);
     }//метод когда стреляет и попадает в клетку корабля
-
 
 }

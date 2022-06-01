@@ -2,6 +2,7 @@ package com.example.battleship.view;
 
 import com.example.battleship.Main;
 import com.example.battleship.controller.Game;
+import com.example.battleship.controller.SceneController;
 import com.example.battleship.controller.util.ItemWrapper;
 import com.example.battleship.model.Field;
 import javafx.fxml.FXML;
@@ -13,9 +14,10 @@ import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import static com.example.battleship.controller.util.CellColors.*;
+import static com.example.battleship.view.CellColors.*;
 
 public class SceneGame implements Initializable {
 
@@ -27,12 +29,13 @@ public class SceneGame implements Initializable {
     @FXML
     private Label playerName;
 
-    private static final double SIDE = 29.75;
+    private static final double SIDE = 28.25;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Game game = Main.sceneController.getGame();
+
+        Game game = SceneController.getInstance().getGame();
 
         GridController firstController = new GridController(gridPane);
         GridController secondController = new GridController(enemyGridPane);
@@ -42,7 +45,7 @@ public class SceneGame implements Initializable {
     private class GridController implements Field.StrikeAction {
         private final GridPane gridPane;
         private boolean isEnable;
-        private final ArrayList<ItemWrapper<Rectangle>> cells = new ArrayList<>();
+        private final List<ItemWrapper<Rectangle>> cells = new ArrayList<>();
 
         public GridController(GridPane gridPane) {
             this.gridPane = gridPane;
@@ -84,7 +87,8 @@ public class SceneGame implements Initializable {
                     break;
             };
 
-            if (Main.sceneController.getGame().getCurrentMode() == Game.Mode.SALVO_BLIND) {
+            Game game = SceneController.getInstance().getGame();
+            if (game.getCurrentMode() == Game.Mode.SALVO_BLIND) {
                 color = PRE_SHIP_COLOR;
             }
 
@@ -94,7 +98,7 @@ public class SceneGame implements Initializable {
         @Override
         public void setEnable(boolean isEnable) {
             if (isEnable) {
-                Game game = Main.sceneController.getGame();
+                Game game = SceneController.getInstance().getGame();
                 playerName.setText(game.getCurrentPlayer().getName());
             }
             this.isEnable = isEnable;
@@ -104,14 +108,14 @@ public class SceneGame implements Initializable {
             if (!isEnable || itemWrapper.isUsed()) {
                 return;
             }
-            Game game = Main.sceneController.getGame();
+            Game game = SceneController.getInstance().getGame();
 
             if (game.getCurrentMode() != Game.Mode.CLASSIC) {
                 paintItem(itemWrapper.getItem(), PRE_SHIP_COLOR);
             }
 
             itemWrapper.setUsed(true);
-            Main.sceneController.getGame().addStrike(itemWrapper.getIndex());
+            SceneController.getInstance().getGame().addStrike(itemWrapper.getIndex());
         }
 
         private void select(Rectangle rectangle) {

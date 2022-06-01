@@ -3,13 +3,13 @@ package com.example.battleship.view;
 import com.example.battleship.controller.BattleShipExceptionHandler;
 import com.example.battleship.controller.Game;
 import com.example.battleship.controller.Game.Items;
+import com.example.battleship.controller.SceneController;
 import com.example.battleship.controller.util.ItemWrapper;
 import com.example.battleship.controller.util.SpaceFinder;
 import com.example.battleship.controller.util.UsedIndexFinder;
-import com.example.battleship.model.BattleShipException;
+import com.example.battleship.controller.BattleShipException;
 import com.example.battleship.model.Field;
 import com.example.battleship.model.ships.AbstractShip;
-import com.example.battleship.model.ships.implementation.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,16 +20,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
-import static com.example.battleship.Main.sceneController;
-import static com.example.battleship.controller.util.CellColors.*;
+import static com.example.battleship.view.CellColors.*;
 
 public class SceneSetup {
-    private static final double SIDE = 29.75;
+    private static final double SIDE = 28.50;
 
     @FXML
     private Label cruise;
@@ -91,7 +87,7 @@ public class SceneSetup {
     private boolean isRemove = false;
     private int currentShipSize;
     private Items currentShipItem;
-    private HashMap<Items, Integer> shipCounts = getClearShipCounts();
+    private Map<Items, Integer> shipCounts = getClearShipCounts();
 
     private HashMap<Items, Integer> getClearShipCounts() {
         return new HashMap<>() {{
@@ -154,6 +150,7 @@ public class SceneSetup {
     }
 
     private void startGameIfReady() {
+        SceneController sceneController = SceneController.getInstance();
         if (sceneController.getGame().isReady()) {
             sceneController.startScene(SceneController.State.GAME);
         } else {
@@ -172,7 +169,7 @@ public class SceneSetup {
             field.addShip(ship);
         }
 
-        sceneController.getGame().addFields(field);
+        SceneController.getInstance().getGame().addFields(field);
     }
 
     private void clearScene() {
@@ -234,7 +231,7 @@ public class SceneSetup {
         }
 
         AbstractShip ship = findShipByIndex(itemWrapper.getIndex());
-        ArrayList<Integer> indexes = ship.getIndexes();
+        List<Integer> indexes = ship.getIndexes();
         ships.remove(ship);
 
         for (int i : indexes) {
@@ -325,30 +322,11 @@ public class SceneSetup {
             indexArray[i] = indexes.get(i);
         }
 
-        AbstractShip ship;
-        switch (currentShipItem) {
-            case LINCORN:
-                ship = new Lincorn(indexArray);
-                break;
-            case CRUISER:
-                ship = new Cruiser(indexArray);
-                break;
-            case DESTROYER:
-                ship = new Destroyer(indexArray);
-                break;
-            case SUBMARINE:
-                ship = new Submarine(indexArray);
-                break;
-            default:
-                ship = new Mine(indexArray);
-                break;
-        }
-
-        return ship;
+        return Items.getShip(currentShipItem, indexArray);
     }
 
     private void showPlayerName(int i) {
-        Game game = sceneController.getGame();
+        Game game = SceneController.getInstance().getGame();
         playerName.setText(game.getPlayer(i).getName());
     }
 

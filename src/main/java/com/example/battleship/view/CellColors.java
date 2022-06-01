@@ -1,4 +1,4 @@
-package com.example.battleship.controller.util;
+package com.example.battleship.view;
 
 import javafx.scene.paint.Color;
 

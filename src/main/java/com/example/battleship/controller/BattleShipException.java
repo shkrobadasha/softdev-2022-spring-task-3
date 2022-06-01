@@ -1,4 +1,4 @@
-package com.example.battleship.model;
+package com.example.battleship.controller;
 
 public abstract class BattleShipException extends Exception{
 
@@ -17,13 +17,13 @@ public abstract class BattleShipException extends Exception{
     public static class PlayerNotFoundException extends RegistrationException {
 
         public PlayerNotFoundException() {
-            super("Игроки не названы");
+            super("Player not found");
         }
     }
 
     public static class ModeNotFoundException extends RegistrationException {
         public ModeNotFoundException() {
-            super("Не выбран режим");
+            super("Mode not found");
         }
     }
 
@@ -39,24 +39,22 @@ public abstract class BattleShipException extends Exception{
     public static class ShipItemCountException extends SetupException {
 
         public ShipItemCountException() {
-            super("Капитан, у нас больше нет такого вооружения");
+            super("Hasn't this ship item");
         }
     }
 
     public static class ItemSpaceException extends SetupException {
 
         public ItemSpaceException() {
-            super("Мало места");
+            super("Hasn't space for shipItem");
         }
     }
 
     public static class HasUnusedShipException extends SetupException {
 
         public HasUnusedShipException() {
-            super("Не всё вооружение задействовано, капитан");
+            super("Has unused shipItems");
         }
     }
-
-
 
 }

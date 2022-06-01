@@ -1,24 +1,22 @@
 package com.example.battleship.controller.util;
 
-import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 public class UsedIndexFinder {
 
-    private static ArrayList<Boolean> getBooleanList(ArrayList<ItemWrapper<Rectangle>> list) {
+    private static <T> ArrayList<Boolean> getBooleanList(ArrayList<ItemWrapper<T>> list) {
         ArrayList<Boolean> blockList = new ArrayList<>();
 
-        for (ItemWrapper<Rectangle> item : list) {
+        for (ItemWrapper<T> item : list) {
             blockList.add(item.isUsed());
         }
 
         return blockList;
     }
 
-    public static Set<Integer> findUsedIndexesFromItemWrapper(ArrayList<ItemWrapper<Rectangle>> list, int startIndex, int width, int height) {
+    public static <T> Set<Integer> findUsedIndexesFromItemWrapper(ArrayList<ItemWrapper<T>> list, int startIndex, int width, int height) {
         return findUsedIndexes(getBooleanList(list), startIndex, width, height);
     }
 
@@ -52,7 +50,7 @@ public class UsedIndexFinder {
         return blockIndexList;
     }
 
-    public static boolean hasUsedNeighbourFromItemWrapper(ArrayList<ItemWrapper<Rectangle>> list, Set<Integer> indexes, int width, int height) {
+    public static <T> boolean hasUsedNeighbourFromItemWrapper(ArrayList<ItemWrapper<T>> list, Set<Integer> indexes, int width, int height) {
         return hasUsedNeighbour(getBooleanList(list), indexes, width, height);
     }
 
@@ -88,10 +86,10 @@ public class UsedIndexFinder {
             }
 
             if (startIndex % width < width - 1) {
-                if (startIndex / height > 0 && list.get(startIndex + 1 - width)){
+                if (startIndex / height > 0 && list.get(startIndex + 1 - width)) {
                     return true;
                 }
-                if (startIndex / height < height - 1 && list.get(startIndex + 1 + width)){
+                if (startIndex / height < height - 1 && list.get(startIndex + 1 + width)) {
                     return true;
                 }
             }

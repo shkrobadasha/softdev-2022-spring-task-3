@@ -1,25 +1,22 @@
 package com.example.battleship.controller;
 
 import com.example.battleship.Main;
-import com.example.battleship.model.BattleShipException;
-import com.example.battleship.model.BattleShipException.ModeNotFoundException;
-import com.example.battleship.model.BattleShipException.PlayerNotFoundException;
+import com.example.battleship.controller.BattleShipException.ModeNotFoundException;
+import com.example.battleship.controller.BattleShipException.PlayerNotFoundException;
 import com.example.battleship.model.Field;
+import com.example.battleship.model.Field.StrikeAction;
 import com.example.battleship.model.Player;
 import com.example.battleship.model.ships.AbstractShip;
-import com.example.battleship.model.ships.implementation.Cruiser;
-import com.example.battleship.model.ships.implementation.Destroyer;
-import com.example.battleship.model.ships.implementation.Lincorn;
-import com.example.battleship.model.ships.implementation.Submarine;
+import com.example.battleship.model.ships.implementation.*;
 import com.example.battleship.view.NotificationUtil;
-import com.example.battleship.view.SceneController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game implements Field.FieldAction {
 
-    private final ArrayList<Field> fields = new ArrayList<>();//для хранения 2 полей
-    private final ArrayList<Integer> strikeIndexes = new ArrayList<>();//для текущих выстрелов
+    private final List<Field> fields = new ArrayList<>();//для хранения 2 полей
+    private final List<Integer> strikeIndexes = new ArrayList<>();//для текущих выстрелов
     private Player[] players;
     private Player winner;
     private Mode currentMode;
@@ -76,7 +73,7 @@ public class Game implements Field.FieldAction {
 
         winner = players[indexField];
         NotificationUtil.notifyInfo(winner.getName(), "Победил");
-        Main.sceneController.startScene(SceneController.State.FINISH_GAME);
+        SceneController.getInstance().startScene(SceneController.State.FINISH_GAME);
     }
 
     private void validateCurrentMode(Mode currentMode) throws ModeNotFoundException {
@@ -110,7 +107,7 @@ public class Game implements Field.FieldAction {
         int countStrikes = 1;
 
         if (currentMode != Mode.CLASSIC) {
-            getAnotherField(field).getMaxSizeOfAliveShip();
+            countStrikes = getAnotherField(field).getMaxSizeOfAliveShip();
         }
 
         applyStrikes(field, countStrikes);
@@ -122,25 +119,27 @@ public class Game implements Field.FieldAction {
 
         ArrayList<Integer> currentStrikeIndexes = new ArrayList<>(strikeIndexes);
 
-        ArrayList<Boolean> currentStrikeResult = new ArrayList<>();
-        boolean changeTurnIsNeeded = currentMode == Mode.CLASSIC;
+        ArrayList<StrikeAction.Result> currentStrikeResult = new ArrayList<>();
+        boolean nonClassic = currentMode == Mode.CLASSIC;
 
         for (int i : currentStrikeIndexes) {
-            Boolean result = field.strike(i, changeTurnIsNeeded);
+            StrikeAction.Result result = field.strike(i, nonClassic);
 
-            if (result != null) {
+            if (result != StrikeAction.Result.EMPTY && result != StrikeAction.Result.MISS) {
                 currentStrikeResult.add(result);
             }
         }
 
         strikeIndexes.clear();
 
-        if (!changeTurnIsNeeded && (!currentStrikeResult.contains(true) || currentStrikeResult.contains(false))) {
+        if (!nonClassic &&
+                (!currentStrikeResult.contains(StrikeAction.Result.SHIP)
+                        || currentStrikeResult.contains(StrikeAction.Result.MINE))) {
             changeTurn(field);
         }
     }
 
-    public void registerStrikeActionListeners(Field.StrikeAction forFirstField, Field.StrikeAction forSecondField) {
+    public void registerStrikeActionListeners(StrikeAction forFirstField, StrikeAction forSecondField) {
         forSecondField.setEnable(true);
         fields.get(0).setStrikeActionListener(forFirstField);
         fields.get(1).setStrikeActionListener(forSecondField);
@@ -215,6 +214,29 @@ public class Game implements Field.FieldAction {
             } else {
                 return Items.MINE;
             }
+        }
+
+        public static AbstractShip getShip(Items currentShipItem, int[] indexArray) {
+            AbstractShip ship;
+            switch (currentShipItem) {
+                case LINCORN:
+                    ship = new Lincorn(indexArray);
+                    break;
+                case CRUISER:
+                    ship = new Cruiser(indexArray);
+                    break;
+                case DESTROYER:
+                    ship = new Destroyer(indexArray);
+                    break;
+                case SUBMARINE:
+                    ship = new Submarine(indexArray);
+                    break;
+                default:
+                    ship = new Mine(indexArray);
+                    break;
+            }
+
+            return ship;
         }
 
         public int getSize() {

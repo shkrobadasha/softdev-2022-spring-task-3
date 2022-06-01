@@ -3,7 +3,8 @@ package com.example.battleship.view;
 import com.example.battleship.Main;
 import com.example.battleship.controller.BattleShipExceptionHandler;
 import com.example.battleship.controller.Game;
-import com.example.battleship.model.BattleShipException;
+import com.example.battleship.controller.BattleShipException;
+import com.example.battleship.controller.SceneController;
 import com.example.battleship.model.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +13,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -56,12 +56,12 @@ public class SceneStart implements Initializable {
 
     private void showSecondScene() {
         try {
-            Game game = Main.sceneController.getGame();
+            Game game = SceneController.getInstance().getGame();
             game.setRegistrationData(
                     new Player[]{new Player(firstPlayer), new Player(secondPlayer)},
                     currentMode
             );
-            Main.sceneController.startScene(SceneController.State.SETUP_GAME);
+            SceneController.getInstance().startScene(SceneController.State.SETUP_GAME);
         } catch (BattleShipException.RegistrationException e) {
             BattleShipExceptionHandler.handle(e);
         }
