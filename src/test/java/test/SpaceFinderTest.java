@@ -12,7 +12,7 @@ public class SpaceFinderTest {
 
     @Test
     public void findSpaceTest() {
-        ArrayList<Boolean> list = new ArrayList<>() {{
+        List<Boolean> list = new ArrayList<>() {{
             //5x5
             addAll(List.of(new Boolean[]{false, false, false, false, false}));
             addAll(List.of(new Boolean[]{false, false, true, true, false}));
@@ -21,8 +21,8 @@ public class SpaceFinderTest {
             addAll(List.of(new Boolean[]{false, false, false, false, false}));
         }};
 
-        ArrayList<Integer> result = SpaceFinder.findSpace(list, 5, 5, 5, 4, true);
-        ArrayList<Integer> expected = new ArrayList<>() {{
+        List<Integer> result = SpaceFinder.findSpace(list, 5, 5, 5, 4, true);
+        List<Integer> expected = new ArrayList<>() {{
             add(5);
             add(10);
             add(15);

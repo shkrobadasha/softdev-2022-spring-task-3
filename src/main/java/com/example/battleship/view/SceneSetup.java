@@ -99,8 +99,8 @@ public class SceneSetup {
         }};
     }
 
-    private final ArrayList<ItemWrapper<Rectangle>> cells = new ArrayList<>();
-    private final ArrayList<AbstractShip> ships = new ArrayList<>();//список всех кораблей,
+    private final List<ItemWrapper<Rectangle>> cells = new ArrayList<>();
+    private final List<AbstractShip> ships = new ArrayList<>();//список всех кораблей,
     // которые возможно разместить
     private boolean isVertical = false;
 
@@ -159,7 +159,7 @@ public class SceneSetup {
         }
     }
 
-    private void createField(ArrayList<AbstractShip> ships) throws BattleShipException.HasUnusedShipException {
+    private void createField(List<AbstractShip> ships) throws BattleShipException.HasUnusedShipException {
         if (ships.size() != Items.getTotalCount()) {
             throw new BattleShipException.HasUnusedShipException();
         }
@@ -285,7 +285,7 @@ public class SceneSetup {
 
         checkCount(currentShipItem);
 
-        ArrayList<Integer> indexItemsToCLick = SpaceFinder.findSpaceFromItemWrapper(
+        List<Integer> indexItemsToCLick = SpaceFinder.findSpaceFromItemWrapper(
                 cells, itemWrapper.getIndex(), 10, 10, currentShipSize, isVertical
         );
         boolean hasNeighbour = UsedIndexFinder.hasUsedNeighbourFromItemWrapper(cells, new HashSet<>() {{
@@ -315,7 +315,7 @@ public class SceneSetup {
         updateCountLabelText(currentShipItem, countStr);
     }
 
-    private AbstractShip createShip(Items currentShipItem, ArrayList<Integer> indexes) {
+    private AbstractShip createShip(Items currentShipItem, List<Integer> indexes) {
         int[] indexArray = new int[indexes.size()];
 
         for (int i = 0; i < indexes.size(); i++) {
@@ -333,22 +333,22 @@ public class SceneSetup {
     private void unselect(ItemWrapper<Rectangle> itemWrapper) {
         if (isRemove) return;
 
-        ArrayList<Rectangle> selectedItems = getSelectedItems(itemWrapper);
+        List<Rectangle> selectedItems = getSelectedItems(itemWrapper);
         paintItems(selectedItems, EMPTY_COLOR);
     }
 
     private void select(ItemWrapper<Rectangle> itemWrapper) {
         if (isRemove) return;
 
-        ArrayList<Rectangle> selectedItems = getSelectedItems(itemWrapper);
+        List<Rectangle> selectedItems = getSelectedItems(itemWrapper);
         paintItems(selectedItems, SELECT_SHIP_COLOR);
     }
 
-    private ArrayList<Rectangle> getSelectedItems(ItemWrapper<Rectangle> itemWrapper) {
-        ArrayList<Integer> result = SpaceFinder.findSpaceFromItemWrapper(
+    private List<Rectangle> getSelectedItems(ItemWrapper<Rectangle> itemWrapper) {
+        List<Integer> result = SpaceFinder.findSpaceFromItemWrapper(
                 cells, itemWrapper.getIndex(), 10, 10, currentShipSize, isVertical
         );
-        ArrayList<Rectangle> selectedItems = new ArrayList<>();
+        List<Rectangle> selectedItems = new ArrayList<>();
 
         for (int i : result) {
             selectedItems.add(cells.get(i).getItem());
@@ -361,7 +361,7 @@ public class SceneSetup {
         isRemove = remove;
     }
 
-    private void paintItems(ArrayList<Rectangle> rectangles, String color) {
+    private void paintItems(List<Rectangle> rectangles, String color) {
         for (Rectangle r : rectangles) {
             paintItem(r, color);
         }

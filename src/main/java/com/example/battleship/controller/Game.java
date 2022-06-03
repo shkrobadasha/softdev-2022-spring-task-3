@@ -117,9 +117,9 @@ public class Game implements Field.FieldAction {
         if (strikeIndexes.size() < countStrikes)
             return;
 
-        ArrayList<Integer> currentStrikeIndexes = new ArrayList<>(strikeIndexes);
+        List<Integer> currentStrikeIndexes = new ArrayList<>(strikeIndexes);
 
-        ArrayList<StrikeAction.Result> currentStrikeResult = new ArrayList<>();
+        List<StrikeAction.Result> currentStrikeResult = new ArrayList<>();
         boolean nonClassic = currentMode == Mode.CLASSIC;
 
         for (int i : currentStrikeIndexes) {

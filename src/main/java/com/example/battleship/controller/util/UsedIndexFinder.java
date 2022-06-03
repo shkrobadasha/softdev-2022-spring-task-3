@@ -2,12 +2,13 @@ package com.example.battleship.controller.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class UsedIndexFinder {
 
-    private static <T> ArrayList<Boolean> getBooleanList(ArrayList<ItemWrapper<T>> list) {
-        ArrayList<Boolean> blockList = new ArrayList<>();
+    private static <T> List<Boolean> getBooleanList(List<ItemWrapper<T>> list) {
+        List<Boolean> blockList = new ArrayList<>();
 
         for (ItemWrapper<T> item : list) {
             blockList.add(item.isUsed());
@@ -16,15 +17,15 @@ public class UsedIndexFinder {
         return blockList;
     }
 
-    public static <T> Set<Integer> findUsedIndexesFromItemWrapper(ArrayList<ItemWrapper<T>> list, int startIndex, int width, int height) {
+    public static <T> Set<Integer> findUsedIndexesFromItemWrapper(List<ItemWrapper<T>> list, int startIndex, int width, int height) {
         return findUsedIndexes(getBooleanList(list), startIndex, width, height);
     }
 
-    public static Set<Integer> findUsedIndexes(ArrayList<Boolean> list, int startIndex, int width, int height) {
+    public static Set<Integer> findUsedIndexes(List<Boolean> list, int startIndex, int width, int height) {
         return findUsedIndexes(list, startIndex, startIndex, width, height);
     }
 
-    private static Set<Integer> findUsedIndexes(ArrayList<Boolean> list, int startIndex, int previousIndex, int width, int height) {
+    private static Set<Integer> findUsedIndexes(List<Boolean> list, int startIndex, int previousIndex, int width, int height) {
         Set<Integer> blockIndexList = new HashSet<>();
 
         if (!list.get(startIndex)) return blockIndexList;
@@ -50,11 +51,11 @@ public class UsedIndexFinder {
         return blockIndexList;
     }
 
-    public static <T> boolean hasUsedNeighbourFromItemWrapper(ArrayList<ItemWrapper<T>> list, Set<Integer> indexes, int width, int height) {
+    public static <T> boolean hasUsedNeighbourFromItemWrapper(List<ItemWrapper<T>> list, Set<Integer> indexes, int width, int height) {
         return hasUsedNeighbour(getBooleanList(list), indexes, width, height);
     }
 
-    public static boolean hasUsedNeighbour(ArrayList<Boolean> list, Set<Integer> indexes, int width, int height) {
+    public static boolean hasUsedNeighbour(List<Boolean> list, Set<Integer> indexes, int width, int height) {
 
         for (int startIndex : indexes) {
             if (startIndex % width > 0 && list.get(startIndex - 1)) {// Поиск влево

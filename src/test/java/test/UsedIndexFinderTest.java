@@ -15,7 +15,7 @@ public class UsedIndexFinderTest {
 
     @Test
     public void findBlockIndexesTest() {
-        ArrayList<Boolean> list = new ArrayList<>() {{
+        List<Boolean> list = new ArrayList<>() {{
             //5x5
             addAll(List.of(new Boolean[]{false, false, false, false, false}));
             addAll(List.of(new Boolean[]{true, true, true, true, false}));
@@ -89,7 +89,7 @@ public class UsedIndexFinderTest {
 
     @Test
     public void hasUsedNeighbourTest() {
-        ArrayList<Boolean> list = new ArrayList<>() {{
+        List<Boolean> list = new ArrayList<>() {{
             //5x5
             addAll(List.of(new Boolean[]{false, false, false, false, false}));
             addAll(List.of(new Boolean[]{false, false, true, true, false}));

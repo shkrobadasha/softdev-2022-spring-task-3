@@ -1,0 +1,198 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 524288 bytes for AllocateHeap
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (src/hotspot/share/memory/allocation.cpp:46), pid=9056, tid=7432
+#
+# JRE version:  (11.0.14.1+1) (build )
+# Java VM: OpenJDK 64-Bit Server VM (11.0.14.1+1-b2043.25, mixed mode, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dorg.gradle.internal.worker.tmpdir=C:\Users\Lenovo\IdeaProjects\softdev-2022-spring-task-3\build\tmp\test\work -Dorg.gradle.native=false --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED -Xmx512m -Dfile.encoding=windows-1251 -Duser.country=RU -Duser.language=ru -Duser.variant -ea worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 1'
+
+Host: Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz, 4 cores, 7G,  Windows 10 , 64 bit Build 19041 (10.0.19041.1202)
+Time: Wed Jun  1 21:19:31 2022 RTZ 2 (зима) elapsed time: 0.020571 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000002561e7fe000):  JavaThread "Unknown thread" [_thread_in_vm, id=7432, stack(0x000000df76a00000,0x000000df76b00000)]
+
+Stack: [0x000000df76a00000,0x000000df76b00000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x61618a]
+V  [jvm.dll+0x79c450]
+V  [jvm.dll+0x79da6d]
+V  [jvm.dll+0x79e143]
+V  [jvm.dll+0x24c968]
+V  [jvm.dll+0xb8914]
+V  [jvm.dll+0x6f4ccf]
+V  [jvm.dll+0x6f4c67]
+V  [jvm.dll+0x6f4dea]
+V  [jvm.dll+0x7785b2]
+V  [jvm.dll+0x77a9d7]
+V  [jvm.dll+0x368d99]
+V  [jvm.dll+0x75c9de]
+V  [jvm.dll+0x3d6d53]
+V  [jvm.dll+0x3d92f1]
+C  [jli.dll+0x536b]
+C  [ucrtbase.dll+0x21bb2]
+C  [KERNEL32.DLL+0x17034]
+C  [ntdll.dll+0x52651]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x000002561ce31e30, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x000002561e817000 GCTaskThread "GC Thread#0" [stack: 0x000000df76b00000,0x000000df76c00000] [id=13304]
+  0x000002561e827800 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000df76c00000,0x000000df76d00000] [id=11716]
+  0x000002561e82a800 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000df76d00000,0x000000df76e00000] [id=3468]
+  0x000002561e8af000 ConcurrentGCThread "G1 Refine#0" [stack: 0x000000df76e00000,0x000000df76f00000] [id=12528]
+  0x000002561e8b0800 ConcurrentGCThread "G1 Young RemSet Sampling" [stack: 0x000000df76f00000,0x000000df77000000] [id=12060]
+
+=>0x000002561e7fe000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=7432, stack(0x000000df76a00000,0x000000df76b00000)]
+
+Threads with active compile tasks:
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap address: 0x00000000e0000000, size: 512 MB, Compressed Oops mode: 32-bit
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+Compressed class space size: 1073741824 Address: 0x0000000100000000
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (1 events):
+Event: 0.007 Loaded shared library C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\zip.dll
+
+
+Dynamic libraries:
+0x00007ff756eb0000 - 0x00007ff756eba000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\java.exe
+0x00007ffcbe410000 - 0x00007ffcbe605000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007ffcbdb70000 - 0x00007ffcbdc2e000 	C:\Windows\System32\KERNEL32.DLL
+0x00007ffcbbe90000 - 0x00007ffcbc159000 	C:\Windows\System32\KERNELBASE.dll
+0x00007ffcbc160000 - 0x00007ffcbc260000 	C:\Windows\System32\ucrtbase.dll
+0x00007ffcb3390000 - 0x00007ffcb33a9000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\jli.dll
+0x00007ffcbd3d0000 - 0x00007ffcbd571000 	C:\Windows\System32\USER32.dll
+0x00007ffcbbd50000 - 0x00007ffcbbd72000 	C:\Windows\System32\win32u.dll
+0x00007ffcbdf20000 - 0x00007ffcbdf4b000 	C:\Windows\System32\GDI32.dll
+0x00007ffcbbc40000 - 0x00007ffcbbd4b000 	C:\Windows\System32\gdi32full.dll
+0x00007ffcbc3c0000 - 0x00007ffcbc45d000 	C:\Windows\System32\msvcp_win.dll
+0x00007ffca9540000 - 0x00007ffca97da000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.1110_none_60b5254171f9507e\COMCTL32.dll
+0x00007ffcbc460000 - 0x00007ffcbc4fe000 	C:\Windows\System32\msvcrt.dll
+0x00007ffcaccd0000 - 0x00007ffcacce6000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\VCRUNTIME140.dll
+0x00007ffcbd580000 - 0x00007ffcbd5b0000 	C:\Windows\System32\IMM32.DLL
+0x00007ffc8e610000 - 0x00007ffc8e6ba000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\msvcp140.dll
+0x00007ffc774d0000 - 0x00007ffc7804a000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\server\jvm.dll
+0x00007ffcbd620000 - 0x00007ffcbd6cc000 	C:\Windows\System32\ADVAPI32.dll
+0x00007ffcbd940000 - 0x00007ffcbd9db000 	C:\Windows\System32\sechost.dll
+0x00007ffcbdce0000 - 0x00007ffcbde0a000 	C:\Windows\System32\RPCRT4.dll
+0x00007ffcbd1b0000 - 0x00007ffcbd1b8000 	C:\Windows\System32\PSAPI.DLL
+0x00007ffcb6650000 - 0x00007ffcb6659000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007ffcbdb00000 - 0x00007ffcbdb6b000 	C:\Windows\System32\WS2_32.dll
+0x00007ffcab3e0000 - 0x00007ffcab407000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007ffcb4f60000 - 0x00007ffcb4f6a000 	C:\Windows\SYSTEM32\VERSION.dll
+0x00007ffcb9a30000 - 0x00007ffcb9a42000 	C:\Windows\SYSTEM32\kernel.appcore.dll
+0x00007ffcb6630000 - 0x00007ffcb6641000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\verify.dll
+0x00007ffc9ce50000 - 0x00007ffc9d034000 	C:\Windows\SYSTEM32\DBGHELP.DLL
+0x00007ffc9cc90000 - 0x00007ffc9ccbc000 	C:\Windows\SYSTEM32\dbgcore.DLL
+0x00007ffcbbb30000 - 0x00007ffcbbbb3000 	C:\Windows\System32\bcryptPrimitives.dll
+0x00007ffcb4e70000 - 0x00007ffcb4e99000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\java.dll
+0x00007ffcb6620000 - 0x00007ffcb662b000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\jimage.dll
+0x00007ffcb4030000 - 0x00007ffcb4049000 	C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\zip.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin;C:\Windows\SYSTEM32;C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.1110_none_60b5254171f9507e;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1\jbr\bin\server
+
+VM Arguments:
+jvm_args: -Dorg.gradle.internal.worker.tmpdir=C:\Users\Lenovo\IdeaProjects\softdev-2022-spring-task-3\build\tmp\test\work -Dorg.gradle.native=false --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED -Xmx512m -Dfile.encoding=windows-1251 -Duser.country=RU -Duser.language=ru -Duser.variant -ea 
+java_command: worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 1'
+java_class_path (initial): C:\\Users\\Lenovo\\.gradle\\caches\\7.2\\workerMain\\gradle-worker.jar;C:\\Users\\Lenovo\\IdeaProjects\\softdev-2022-spring-task-3\\build\\classes\\java\\test;C:\\Users\\Lenovo\\IdeaProjects\\softdev-2022-spring-task-3\\build\\resources\\test;C:\\Users\\Lenovo\\IdeaProjects\\softdev-2022-spring-task-3\\build\\classes\\java\\main;C:\\Users\\Lenovo\\IdeaProjects\\softdev-2022-spring-task-3\\build\\resources\\main;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\org.openjfx\\javafx-fxml\\11.0.2\\b3242e4c031558574de2a1da685bb5fcdbb8a530\\javafx-fxml-11.0.2-win.jar;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\org.openjfx\\javafx-controls\\11.0.2\\6c763707769c18adce406904c771c2ad1fcc370b\\javafx-controls-11.0.2-win.jar;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\org.openjfx\\javafx-controls\\11.0.2\\4ab633cf1eea60f76e2ae9905aedac862da88b08\\javafx-controls-11.0.2.jar;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\org.openjfx\\javafx-media\\11.0.2\\a9d052aba5dc676f26b5cfcd33a68e381f08a47a\\javafx-media-11.0.2-win.jar;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\org.openjfx\\javafx-graphics\\11.0.2\\20459ea2cf714942bcbeb78a7f70ba3531dc1a44\\javafx-graphics-11.0.2-win.jar;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\org.openjfx\\javafx-graphics\\11.0.2\\e522eb4ea422eceeee207b1c266ba3db19b2343a\\javafx-graphics-11.0.2.jar;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\org.openjfx\\javafx-base\\11.0.2\\1852e57b8cf9a9b6488c33605bccd5d06ff210e1\\javafx-base-11.0.2-win.jar;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\org.openjfx\\javafx-base\\11.0.2\\7fb2e4a8528ec9e434a9ac9ee98b39af79e6dcb8\\javafx-base-11.0.2.jar;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\org.controlsfx\\controlsfx\\11.1.1\\d303c563c23d5176346e8d05932afbec421060ae\\controlsfx-11.1.1.jar;C:\\Users\\Lenovo\\.gradle\\caches\\modules-2\\files-2.1\\com.dlsc.formsfx\\formsfx-core
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 3                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 1                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 4                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 132120576                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 536870912                                 {product} {command line}
+   size_t MaxNewSize                               = 321912832                                 {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5830732                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122913754                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122913754                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk-17.0.2
+PATH=C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Users\Lenovo\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Python 3.10;C:\Users\Lenovo\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\Lenovo\AppData\Local\Programs\Python\Python310\;C:\Users\Lenovo\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Java\jdk-17.0.2\bin;C:\Users\Lenovo\AppData\Local\Pandoc\;C:\Users\Lenovo\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Python 3.10;
+USERNAME=Lenovo
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10 , 64 bit Build 19041 (10.0.19041.1202)
+OS uptime: 2 days 3:07 hours
+
+CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 142 stepping 9 microcode 0xb4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx, fma
+
+Memory: 4k page, system-wide physical 8050M (223M free)
+TotalPageFile size 8050M (AvailPageFile size 5M)
+current process WorkingSet (physical memory assigned to process): 15M, peak: 15M
+current process commit charge ("private bytes"): 183M, peak: 184M
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.14.1+1-b2043.25) for windows-amd64 JRE (11.0.14.1+1-b2043.25), built on Mar 30 2022 06:22:56 by "" with MS VC++ 14.0 (VS2015)
+
+END.

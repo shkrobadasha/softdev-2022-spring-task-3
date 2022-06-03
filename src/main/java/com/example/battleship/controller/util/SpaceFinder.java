@@ -3,11 +3,12 @@ package com.example.battleship.controller.util;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SpaceFinder {
 
-    private static <T> ArrayList<Boolean> getBooleanList(ArrayList<ItemWrapper<T>> list) {
-        ArrayList<Boolean> blockList = new ArrayList<>();
+    private static <T> List<Boolean> getBooleanList(List<ItemWrapper<T>> list) {
+        List<Boolean> blockList = new ArrayList<>();
         for (ItemWrapper<T> item : list) {
             blockList.add(item.isUsed());
         }
@@ -15,8 +16,8 @@ public class SpaceFinder {
         return blockList;
     }
 
-    public static <T> ArrayList<Integer> findSpaceFromItemWrapper(
-            ArrayList<ItemWrapper<T>> list,
+    public static <T> List<Integer> findSpaceFromItemWrapper(
+            List<ItemWrapper<T>> list,
             int startIndex,
             int width,
             int height,
@@ -25,14 +26,14 @@ public class SpaceFinder {
         return findSpace(getBooleanList(list), startIndex, width, height, size, isVertical);
     }
 
-    public static ArrayList<Integer> findSpace(
-            ArrayList<Boolean> list,
+    public static List<Integer> findSpace(
+            List<Boolean> list,
             int startIndex,
             int width,
             int height,
             int size,
             boolean isVertical) {
-        ArrayList<Integer> spaceIndexList = new ArrayList<>();
+        List<Integer> spaceIndexList = new ArrayList<>();
 
         int index;
 
